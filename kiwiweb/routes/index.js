@@ -4,13 +4,13 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'The Kiwi Page', page: 'pages/index.ejs' });
+  res.render('index', { title: 'The Kiwi Page' });
 };
 
 exports.estaciones = function(req, res){
-  res.render('index', { title: 'Estaciones', page: 'pages/estaciones.ejs' });
+  res.render('estaciones', { title: 'Estaciones' });
 };
 
 exports.usuarios = function(req, res){
-  res.render('index', { title: 'Usuarios', page: 'pages/usuarios.ejs' });
+  res.render('usuarios', { title: 'Usuarios' });
 };
