@@ -1,11 +1,19 @@
-var Db = require('mongodb').Db;
-var Connection = require('mongodb').Connection;
-var Server = require('mongodb').Server;
+var collections = ['users',
+  'bikes',
+  'stations',
+  'slots',
+  'sessions'
+];
+
+var db = require("mongojs").connect('mongodb://localhost:27017/kiwi', collections);
+
 var Promise = require('./promise');
 var _ = require('underscore');
 
 //the MongoDB connection
 var connectionPromise;
+
+exports.collections = collections;
 
 exports.findOne = function(collection) {
   var args = _.tail(arguments, 1) || [];
@@ -14,7 +22,7 @@ exports.findOne = function(collection) {
 
 exports.find = function(collection) {
   var args = _.tail(arguments, 1) || [];
-  return query(collection, 'findOne', args);
+  return query(collection, 'find', args);
 };
 
 exports.remove = function(collection) {
@@ -27,37 +35,13 @@ exports.insert = function(collection) {
   return query(collection, 'insert', args);
 };
 
-function getConnection() {
-  //if already we have a connection, don't connect to database again
-  if (connectionPromise) {
-    return connectionPromise;
-  }
-
-  var db = new Db('kiwi', new Server("127.0.0.1", Connection.DEFAULT_PORT, { auto_reconnect: true }));
-  
-  connectionPromise = Promise.asPromise(db, db.open)
-    .then(function(dbConnection) {
-      return dbConnection;
-    })
-    .fail(function(error) {
-      throw new Error(error);
-    });
-
-    return connectionPromise;
-};
-
 function query(colName, method, args) {
-  return getConnection()
-    .then(function(client) {
-      return Promise.asPromise(client, client.collection, colName);
-    })
-    .then(function(collection) {
-      var promise = Promise.withCallback();
-      args = args || [];
-      args.push(promise.cb);
+  var collection = db[colName];
+  var promise = Promise.withCallback();
+  args = args || [];
+  args.push(promise.cb);
 
-      collection[method].apply(collection, args);
+  collection[method].apply(collection, args);
 
-      return promise;
-    });
+  return promise;
 };

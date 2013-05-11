@@ -13,6 +13,7 @@
     "underscore" : "*",
     "socket.io" : "*",
     "q": "*",
-    "simple-class": "1.0.0"
+    "simple-class": "1.0.0",
+    "mongojs": "*"
   }
 }

@@ -111,15 +111,13 @@ var collections = {
 	'stations': stations,
 	'slots': slots,
 	'sessions': sessions
-
 };
 
 exports.init = function() {
 	console.log('Loading fixtures');
-	var promises = [];
-	for (var collection in collections) {
+	var promises = db.collections.map(function(collection) {
 		//console.log('Initializing collection ' + collection);
-		if(!collection) Promise.resolve(true);
+		if(!collections[collection]) Promise.resolve(true);
 
 		var p = collections[collection].map(function(model) {
 			var col = collection;
@@ -131,8 +129,8 @@ exports.init = function() {
 			});
 		});
 
-		promises.push(Promise.all(p));
-   }
+		return Promise.all(p);
+	});
 
 	return Promise.all(promises)
 		.then(function() {
