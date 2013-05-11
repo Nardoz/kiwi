@@ -53,6 +53,7 @@ var stations = [
 			lat: 24.123123123,
 			long: 34.12312312
 		},
+		ip:'100.100.100.100',
 		name: 'Plaza Almagro'
 	},
 	{
@@ -61,31 +62,32 @@ var stations = [
 			lat: 25.123123123,
 			long: 31.12312312
 		},
+		ip:'102.102.102.102',
 		name: 'Microcentro'
 	}
 ];
 
 var slots = [
 	{
-		id: 1,
+		id: 1001,
 		bikeId: 1,
 		open: false,
 		stationId: 1
 	},
 	{
-		id: 2,
+		id: 1002,
 		bikeId: null,
 		open: false,
 		stationId: 1
 	},
 	{
-		id: 3,
+		id: 2001,
 		bikeId: 2,
 		open: false,
 		stationId: 2
 	},
 	{
-		id: 4,
+		id: 002002,
 		bikeId: 4,
 		open: false,
 		stationId: 2
@@ -101,7 +103,28 @@ var sessions = [
 		slotFrom: 2,
 		dateFrom: new Date(now.getTime()-4*60*60*1000), //3 hours before now 
 		slotTo: null,
-		dateTo: null
+		dateTo: null,
+		status: "ACTIVO"
+	},
+	{
+		id: 1,
+		userId: 1,
+		bikeId: 3,
+		slotFrom: 2,
+		dateFrom: new Date(now.getTime()-10*60*60*1000), //3 hours before now 
+		slotTo: 4,
+		dateTo: new Date(now.getTime()-8*60*60*1000),
+		status: "ACTIVO"
+	},
+	{
+		id: 1,
+		userId: 1,
+		bikeId: 4,
+		slotFrom: 2,
+		dateFrom: new Date(now.getTime()-6*60*60*1000), //3 hours before now 
+		slotTo: 4,
+		dateTo: new Date(now.getTime()-5*60*60*1000),
+		status: "ACTIVO"
 	}
 ];
 
