@@ -5,7 +5,8 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
+  , usuario = require('./routes/usuarios')
+  , estacion = require('./routes/estaciones')
   , http = require('http')
   , path = require('path')
   , socket = require('socket.io');
@@ -33,8 +34,8 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/usuarios', routes.usuarios);
-app.get('/estaciones', routes.estaciones);
+app.get('/usuarios', usuario.list);
+app.get('/estaciones', estacion.list);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
