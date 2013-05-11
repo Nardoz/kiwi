@@ -12,6 +12,7 @@
     "mongodb" : "*",
     "underscore" : "*",
     "socket.io" : "*",
-    "q": "*"
+    "q": "*",
+    "simple-class": "1.0.0"
   }
 }

@@ -11,7 +11,7 @@ module.exports = function(callback) {
     return;
   }
 
-  var db = new Db('petshop', new Server("127.0.0.1", Connection.DEFAULT_PORT, { auto_reconnect: true }));
+  var db = new Db('kiwi', new Server("127.0.0.1", Connection.DEFAULT_PORT, { auto_reconnect: true }));
   db.open(function(error, databaseConnection) {
     if (error) throw new Error(error);
     connectionInstance = databaseConnection;

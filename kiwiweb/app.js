@@ -7,8 +7,10 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , socket = require('socket.io');
 
+var io = socket.listen(app);
 var app = express();
 
 app.configure(function(){
@@ -36,3 +38,9 @@ app.get('/users', user.list);
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+
+io.sockets.on('connection', function (socket) {
+//    socket.on('socketname', function);
+});
+
