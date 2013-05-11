@@ -35,6 +35,11 @@ exports.insert = function(collection) {
   return query(collection, 'insert', args);
 };
 
+exports.update = function(collection) {
+  var args = _.tail(arguments, 1) || [];
+  return query(collection, 'update', args);
+};
+
 function query(colName, method, args) {
   var collection = db[colName];
   var promise = Promise.withCallback();

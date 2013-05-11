@@ -5,12 +5,13 @@ var controllers = autoloader.load(__dirname + '/controllers');
 module.exports = function(app) {
     // Webapp API
    
+	app.get('/', controllers.main.index);
+    
     app.get('/api/users', controllers.user.list);
     app.get('/api/users/:id', controllers.user.getById);
 	app.get('/api/users/:id/sessions', controllers.user.getSessions);
 	app.get('/api/users/:id/sessions/active', controllers.user.getActiveSession);
 
-	 //app.get('/', controllers.main.index);
 
 	/*
 	app.get('/api/bikes', controllers.bike.list);
@@ -28,8 +29,8 @@ module.exports = function(app) {
 	*/
 
 	// SMS
-	app.post('/api/user/:id/sessions', controllers.user.closeSession)
+	app.post('/api/users/:userId/sessions', controllers.api.createSession);
 
 	// Arduino
-	//app.put('/api/slots/:id')
+	app.put('/api/slots/:slotId', controllers.api.updateSlot);
 };
