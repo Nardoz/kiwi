@@ -11,6 +11,7 @@
     "stylus": "*",
     "mongodb" : "*",
     "underscore" : "*",
-    "socket.io" : "*"
+    "socket.io" : "*",
+    "q": "*"
   }
 }
