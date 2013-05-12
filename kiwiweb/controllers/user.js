@@ -16,7 +16,7 @@ function handle(promise, res, next) {
 exports.list = function(req, res, next) {
 	db.find('users')
 	.then(function(users){
-		res.render('usuarios', { title: 'Usuarios', users: users });
+		res.render('usuarios', { title: 'Usuarios', users: users, _ : require('underscore') });
 	}).done();
 };
 
