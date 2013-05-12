@@ -25,6 +25,7 @@ module.exports = function(app) {
 	app.put('/api/slots/:slotId/open', controllers.api.openSlot);
 	app.put('/api/slots/:slotId/close', controllers.api.closeSlot);
 	app.put('/api/slots/:slotId/withdraw', controllers.api.withdrawBike);
+	app.put('/api/stations/:stationId', controllers.api.updateStationIP);
 
 
 
