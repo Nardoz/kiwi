@@ -1,7 +1,9 @@
 var cons = require('../lib/cons');
+var request = require('../lib/request');
 var sessionService = require('../services/session');
 var slotService = require('../services/slot');
 var userService = require('../services/user');
+var stationService = require('../services/station');
 
 function handle(promise, res, next) {
 	promise
@@ -18,6 +20,8 @@ exports.createSessionByUserId = function(req, res, next) {
 	var userId = req.params.userId;
 	var slotId = req.body.slotId;
 
+	if(!userId || !slotId) next(Error('Invalid parameters')); return;
+
 	console.log('Creating session for user ' + userId + ' and slot ' + slotId);
 
 	var promise = userService.get(userId).then(function(user) {
@@ -30,6 +34,8 @@ exports.createSessionByUserId = function(req, res, next) {
 exports.createSessionByPhonenumber = function(req, res, next) {
 	var phoneNumber = req.params.number;
 	var slotId = req.body.slotId;
+
+	if(!phoneNumber || !slotId) next(Error('Invalid parameters')); return;
 
 	console.log('Creating session for user with phone number ' + phoneNumber + ' and slot ' + slotId);
 
@@ -47,12 +53,27 @@ function createSession(user, slotId) {
 			return sessionService.createSession(user, slot);	
 		})
 		.then(function() {
-			// Llamar a estacion slot.station.ip
+			console.log('Slot ' + slot.id + ' belongs to station "' + slot.station.name + '"');
+			console.log('Notifying station "' + slot.station.name + '" (IP:' + slot.station.ip + ')');
+			return request.get("http://" + slot.station.ip + "/slots/" + slot.id + "/open");
 		});
+}
+
+
+exports.updateStationIP = function(req, res, next) {
+	var stationId = req.params.stationId;
+	var ip = req.body.ip;
+
+	if(!stationId || !ip) next(Error('Invalid parameters')); return; 
+
+	handleResponse(stationService.updateIP(stationId, ip) , res, next);
 }
 
 exports.openSlot = function(req, res, next) {
 	var slotId = req.params.slotId;
+
+	if(!slotId) next(Error('Invalid parameters')); return;
+
 	console.log('Slot ' + slotId + ' open');
 
 	var promise = slotService.get(slotId).then(function(slot) {
@@ -66,6 +87,8 @@ exports.closeSlot = function(req, res, next) {
 	var slotId = req.params.slotId;
 	var bikeId = req.body.bikeId;
 
+	if(!slotId || !bikeId) next(Error('Invalid parameters')); return;
+
 	console.log('Slot ' + slotId + ' closed with the bike ' + bikeId);
 	var promise = slotService.get(slotId).then(function(slot) {
 		return Promise.all([slotService.closeSlot(slot, bikeId), sessionService.updateSessionForClosedSlot(bikeId, slot)]);
@@ -76,6 +99,8 @@ exports.closeSlot = function(req, res, next) {
 
 exports.withdrawBike = function(req, res, next) {
 	var slotId = req.params.slotId;
+
+	if(!slotId) next(Error('Invalid parameters')); return;
 
 	var promise = slotService.get(slotId).then(function(slot) {
 		console.log('The bike ' + slot.bikeId + ' has been withdrawn from slot ' + slot.id);
