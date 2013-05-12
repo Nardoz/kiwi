@@ -1,5 +1,39 @@
 <% include includes/header.ejs %>
 
-<%- session %>
+
+
+
+<div class="row-fluid">
+            <ul class="thumbnails">
+              <li class="span4">
+                <div class="thumbnail">
+                		<img src="http://maps.googleapis.com/maps/api/staticmap?center=<%-stations[0].coords.lat%>,<%-stations[0].coords.long%>&zoom=13&size=300x300&maptype=roadmap
+&markers=color:red%7Clabel:%7C<%-stations[0].coords.lat%>,<%-stations[0].coords.long%>8&sensor=false"/>
+                  <div class="caption">
+                    <h3><%-stations[0].name%></h3>
+                                        <p>Estación de Salida</p>
+
+                  </div>
+                </div>
+              </li>
+
+              <li class="span4">
+                <div class="thumbnail">
+              
+		<img src="http://maps.googleapis.com/maps/api/staticmap?center=<%-stations[1].coords.lat%>,<%-stations[1].coords.long%>&zoom=13&size=300x300&maptype=roadmap
+&markers=color:red%7Clabel:%7C<%-stations[1].coords.lat%>,<%-stations[1].coords.long%>8&sensor=false"/>
+
+                  <div class="caption">
+                          <h3><%-stations[1].name%></h3>
+                    <p>Estación de Llegada</p>
+
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+
+
 
 <% include includes/footer.ejs %>
