@@ -13,3 +13,19 @@ exports.closeSlot = function(slotId, bikeId) {
 exports.withdrawBike = function(slotId) {
 	return db.update('slots', {id: slotId}, {bikeId: null});
 }
+
+exports.get = function(id) {
+	return db.findOne('slots', {id: id});
+}
+
+exports.getWithStation = function(id) {
+	return db.findOne('slots', {id: id})
+		.then(function(slot) {
+			return db.findOne('stations', {id: slot.stationId})
+				.then(function(station) {
+					slot.station = station;
+
+					return slot;
+				});
+		});
+}
