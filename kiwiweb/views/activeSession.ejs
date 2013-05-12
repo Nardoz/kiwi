@@ -18,6 +18,7 @@ margin-right:auto;text-align:center;"><%-sessions.length%></h1>
       <th>Nombre y Apellido</th>
       <th>DNI</th>
       <th>Celular</th>
+      <th>Bicicleta Nro</th>
       <th>Ver Más</th>
     </tr>
   </thead>
@@ -31,6 +32,7 @@ margin-right:auto;text-align:center;"><%-sessions.length%></h1>
           <td><a href="/users/<%-user.id%>" ><%-user.name%> <%-user.apellido%> </a></td>
           <td><%-user.dni%></td>
           <td><%-user.cel%></td>
+          <td><%-user.session.bikeId%></td>
           <td><a class="btn btn-mini" href="/users/<%-user.id%>">+</a></td>
         </tr>
       <%

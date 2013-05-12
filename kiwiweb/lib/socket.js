@@ -10,6 +10,7 @@ exports.init = function(app) {
 };
 
 exports.notify = function(eventName, params) {
-	if(!socket) throw Error('Socket.IO was not initialized');
-	socket.emit(eventName, params);
+	//if(!socket) throw Error('Socket.IO was not initialized');
+	//socket.emit(eventName, params);
+	return true;
 };

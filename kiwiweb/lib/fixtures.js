@@ -70,27 +70,27 @@ var stations = [
 
 var slots = [
 	{
-		id: 1001,
+		id: 101,
 		bikeId: 1,
 		open: false,
 		stationId: 1
 	},
 	{
-		id: 1002,
+		id: 102,
 		bikeId: null,
 		open: true,
 		stationId: 1
 	},
 	{
-		id: 2001,
+		id: 201,
 		bikeId: 2,
 		open: false,
 		stationId: 2
 	},
 	{
-		id: 2002,
-		bikeId: 4,
-		open: false,
+		id: 202,
+		bikeId: null,
+		open: true,
 		stationId: 2
 	},
 ];
@@ -99,10 +99,20 @@ var now = new Date();
 var sessions = [
 	{
 		id: 1,
-		userId: 1,
+		userId: 3,
 		bikeId: 3,
-		slotFrom: 2002,
+		slotFrom: 102,
 		dateFrom: new Date(now.getTime()-4*60*60*1000), //3 hours before now 
+		slotTo: null,
+		dateTo: null,
+		status: CONS.SESSION.STATUS.ACTIVE
+	},
+	{
+		id: 1,
+		userId: 1,
+		bikeId: 4,
+		slotFrom: 202,
+		dateFrom: new Date(now.getTime()-10*60*60*1000), //3 hours before now 
 		slotTo: null,
 		dateTo: null,
 		status: CONS.SESSION.STATUS.ACTIVE
@@ -111,9 +121,9 @@ var sessions = [
 		id: 2,
 		userId: 1,
 		bikeId: 3,
-		slotFrom: 1002,
+		slotFrom: 102,
 		dateFrom: new Date(now.getTime()-10*60*60*1000), //3 hours before now 
-		slotTo: 2001,
+		slotTo: 201,
 		dateTo: new Date(now.getTime()-8*60*60*1000),
 		status: CONS.SESSION.STATUS.FINISHED
 	},
@@ -121,9 +131,9 @@ var sessions = [
 		id: 3,
 		userId: 1,
 		bikeId: 4,
-		slotFrom: 2001,
+		slotFrom: 201,
 		dateFrom: new Date(now.getTime()-6*60*60*1000), //3 hours before now 
-		slotTo: 1001,
+		slotTo: 101,
 		dateTo: new Date(now.getTime()-5*60*60*1000),
 		status: CONS.SESSION.STATUS.FINISHED
 	}

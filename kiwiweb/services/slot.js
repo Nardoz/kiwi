@@ -26,11 +26,11 @@ exports.withdrawBike = function(slot) {
 }
 
 exports.get = function(id) {
-	return db.findOne('slots', {id: id});
+	return db.findOne('slots', {id: parseInt(id,10)});
 }
 
 exports.getWithStation = function(id) {
-	return db.findOne('slots', {id: id})
+	return db.findOne('slots', {id: parseInt(id,10)})
 		.then(function(slot) {
 			return stationService.get(slot.stationId)
 				.then(function(station) {

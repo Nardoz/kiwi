@@ -21,14 +21,18 @@ exports.findOne = function(collection) {
 };
 
 exports.generateId = function(collection) {
-  var collection = db[colName];
+  var collection = db[collection];
 
   var promise = Promise.withCallback();
-  var elem = collection.find().sort({id: -1}).limit(1).first(promise.cb);
+  var elem = collection.find().sort({id: -1}).limit(1,promise.cb);
 
-
-  return promise.then(function(elem) {
-    return (elem.id + 1);
+  return promise.then(function(elems) {
+    var a = elems[0];
+    if(!a){
+      return 1;
+    }else{
+      return a.id + 1;
+    }
   });
 };
 
@@ -47,8 +51,11 @@ exports.insert = function(collection) {
   return query(collection, 'insert', args);
 };
 
-exports.update = function(collection) {
-  var args = _.tail(arguments, 1) || [];
+exports.update = function(collection,filter,values) {
+  //var args = _.tail(arguments, 3) || [];
+  var args = [];
+  args.push(filter);
+  args.push({$set: values});
   return query(collection, 'update', args);
 };
 
