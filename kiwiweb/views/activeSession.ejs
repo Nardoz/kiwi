@@ -1,5 +1,45 @@
 <% include includes/header.ejs %>
 
-  stats
+<div class="container">
+<h1><%-sessions.length%></h1>
+
+
+<div>
+
+</div>
+
+users: <%- users.length %>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nombre y Apellido</th>
+      <th>DNI</th>
+      <th>Celular</th>
+      <th>Ver Más</th>
+    </tr>
+  </thead>
+  <tbody>
+
+      <%
+      users.forEach(function (user) {
+      %>
+        <tr>
+          <td><%-user.id%></td>
+          <td><a href="/users/<%-user.id%>" ><%-user.name%> <%-user.apellido%> </a></td>
+          <td><%-user.dni%></td>
+          <td><%-user.cel%></td>
+          <td><a class="btn btn-mini" href="/users/<%-user.id%>">+</a></td>
+        </tr>
+      <%
+      });
+      %>
+
+  </tbody>
+</table>
+
+</div>
+
 
 <% include includes/footer.ejs %>
