@@ -16,10 +16,16 @@ serialPort.on('open', function() {
 
     var parsed = data.match(/([0-9]{3})([0-1]{1})/);
 
-    arduino.on_status({
-      slot_id: parsed[0],
-      bike_status: parsed[1]
-    });
+    if(parsed !== null) {
+
+      arduino.on_status({
+        slot_id: parsed[0],
+        bike_status: parsed[1]
+      });
+
+    } else {
+      console.log('Error reading incoming data: ' + data);
+    }
 
   });
 });
@@ -27,11 +33,14 @@ serialPort.on('open', function() {
 var arduino = {
 
   open_slot: function(slotId) {
-    serialPort.write(parseInt(slotId) + "o\n");
+    serialPort.write(slotId + "o\n", function(err, results) {
+    console.log('err ' + err);
+    console.log('results ' + results);
+  });
   },
 
   close_slot: function(slotId) {
-    serialPort.write(parseInt(slotId) + "c\n");
+    serialPort.write(slotId + "c\n");
   },
 
   get_status: function() {
