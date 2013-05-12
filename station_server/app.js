@@ -9,7 +9,7 @@ var serialPort = new SerialPort('/dev/tty.usbmodemfa131', {
   parser: serialport.parsers.readline("\n")
 });
 
-var stationId = '001';
+var stationId = '01';
 
 function slotIsValid(station, slot) {
   var parsed = parseSlot(slot);
@@ -17,7 +17,7 @@ function slotIsValid(station, slot) {
 }
 
 function parseSlot(slotId) {
-  return slotId.match(/([0-9]{3})([0-9]{3})/);
+  return slotId.match(/([0-9]{2})([0-9]{2})/);
 }
 
 app.get('/open_slot', function(req, res) {
