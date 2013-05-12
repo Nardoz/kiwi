@@ -14,7 +14,7 @@ exports.getOpenSessionForBike = function(bikeId) {
 
 exports.discardSession = function(session) {
 	// Slot timed out. User didn't take the bike. Removing the "reserved" session
-	console.log('Slot ' + session.id + ' timed out and closed. Removing the session.');
+	
 	return db.remove('sessions', {id: session.id})
 		.then(function() {
 			socket.notify('session.discard', {id: session.id});
@@ -37,6 +37,7 @@ exports.updateSessionForClosedSlot = function(bikeId, slot) {
 				if(!session) throw Error('Session not found');
 
 				if(session.status === CONST.SESSION.STATUS.RESERVED) {
+					console.log('Slot ' + slot.id + ' timed out and closed. Removing the session.');
 					return exports.discardSession(session);		
 				} else {
 					return exports.finishSession(session, slot);

@@ -55,7 +55,7 @@ function createSession(user, slotId) {
 			.then(function() {
 				console.log('Slot ' + slot.id + ' belongs to station "' + slot.station.name + '"');
 				console.log('Notifying station "' + slot.station.name + '" (IP:' + slot.station.ip + ')');
-				return true;//request.get("http://" + slot.station.ip + "/slots/" + slot.id + "/open");
+				return request.get("http://" + slot.station.ip + "/slots/" + slot.id + "/open");
 			});
 		});
 		
@@ -79,7 +79,6 @@ exports.openSlot = function(req, res, next) {
 	console.log('Slot ' + slotId + ' open');
 
 	var promise = slotService.get(slotId).then(function(slot) {
-		console.log(slot);
 		return slotService.openSlot(slot);
 	});
 	
