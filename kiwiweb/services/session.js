@@ -1,4 +1,5 @@
 var db = require('../lib/db');
+var socket = require('../lib/socket');
 var CONST = require('../lib/cons');
 
 exports.getOpenSessionForBike = function(bikeId) {
@@ -8,13 +9,19 @@ exports.getOpenSessionForBike = function(bikeId) {
 exports.discardSession = function(session) {
 	// Slot timed out. User didn't take the bike. Removing the "reserved" session
 	console.log('Slot ' + slotId + ' timed out and closed. Removing the session.');
-	return db.remove('sessions', {id: session.id});		
+	return db.remove('sessions', {id: session.id})
+		.then(function() {
+			socket.notify('session.discard', {id: session.id});
+		});	
 }
 
 exports.finishSession = function(session, slot) {
 	// Bike from an active session was returned to this slot, finishing the session
 	console.log('Slot ' + slotId + ' received bike ' + bikeId + ' from user ' + session.userId + '. Finishing the session.');
-	return db.update('sessions', {id: session.id}, {status: CONST.SESSION.STATUS.FINISHED, dateTo: Date.now(), slotTo: slot.id});
+	return db.update('sessions', {id: session.id}, {status: CONST.SESSION.STATUS.FINISHED, dateTo: Date.now(), slotTo: slot.id})
+		.then(function() {
+			socket.notify('session.finish', {id: session.id});
+		});
 }
 
 exports.updateSessionForClosedSlot = function(slot, bikeId) {
@@ -36,7 +43,16 @@ exports.updateSessionForClosedSlot = function(slot, bikeId) {
 }
 
 exports.activateSession = function(slot) {
-	return db.update('sessions', {slotFrom: slot.id, status: CONST.SESSION.STATUS.RESERVED}, {status: CONST.SESSION.STATUS.ACTIVE, dateFrom: Date.now()});
+	return db.findOne('sessions', {slotFrom: slot.id, status: CONST.SESSION.STATUS.RESERVED})
+		.then(function(session) {
+			if(!session) throw Error('Session not found');
+
+			return db.update('sessions', {id: session.id}, {status: CONST.SESSION.STATUS.ACTIVE, dateFrom: Date.now()})
+				.then(function() {
+					socket.notify('session.activate', {id: session.id});
+				});
+		});
+		
 }
 
 exports.createSession = function(user, slot) {
@@ -47,5 +63,9 @@ exports.createSession = function(user, slot) {
 		status: CONST.SESSION.STATUS.RESERVED
 	};
 
-	return db.insert('sessions', session);
+	return db.generateId('sessions')
+		.then(function(id) {
+			session.id = id;
+			return db.insert('sessions', session);
+		});
 };

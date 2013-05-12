@@ -1,5 +1,11 @@
 {
   "station_id": "01",
+  "port": 8080,
+  "timeout": 10,
+  "kiwi": {
+    "hostname": "http://10.92.4.178",
+    "port": 3000
+  },
   "serial": {
     "device": "/dev/tty.usbmodemfa131",
     "baud_rate": 57600
