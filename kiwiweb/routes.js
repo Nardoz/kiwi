@@ -19,7 +19,9 @@ module.exports = function(app) {
 	app.post('/api/users/:userId/sessions', controllers.api.createSession);
 
 	// Arduino
-	app.put('/api/slots/:slotId', controllers.api.updateSlot);
+	app.put('/api/slots/:slotId/open', controllers.api.openSlot);
+	app.put('/api/slots/:slotId/close', controllers.api.closeSlot);
+	app.put('/api/slots/:slotId/withdraw', controllers.api.withdrawBike);
 
 
 

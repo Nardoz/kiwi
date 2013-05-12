@@ -1,5 +1,6 @@
-var db = require('../lib/db');
-var constants = require('../lib/constants');
+var cons = require('../lib/cons');
+var sessionService = require('../services/session');
+var slotService = require('../services/slot');
 
 function handle(promise, res, next) {
 	promise
@@ -13,49 +14,48 @@ function handle(promise, res, next) {
 }
 
 exports.createSession = function(req, res, next) {
-	var session = {
-		userId: req.params.userId,
-		bikeId: req.body.bikeId,
-		slotFrom: req.body.slotFrom,
-		status: constants.SESSION_STATUS_RESERVED,
-		dateTo: null  
-	};
+	var userId = req.params.userId;
+	var bikeId = req.body.bikeId;
+	var slotFrom = req.body.slotFrom;
 
-	db.insert('sessions', session).then(function() {
-		res.ok();
-	});
+	handleResponse(sessionService.createSession(userId, bikeId, slotId), res, next);
 };
 
-exports.updateSlot = function(req, res, next) {
+exports.openSlot = function(req, res, next) {
+	var slotId = req.params.slotId;
+	
+	handleResponse(slotService.openSlot(slotId), res, next);
+};
+
+exports.closeSlot = function(req, res, next) {
 	var slotId = req.params.slotId;
 	var bikeId = req.body.bikeId;
-	var isOpen = req.body.open;
-	
-	if(isOpen) {
-		openSlot(slotId)
-		.then(function() {
-			res.ok();
-		});
-		return;		
-	} else {
-		/*closeSlot(slotId);
 
-		updateSession(bikeId, slotId)*/
-	}
+	promise = Promise.all([slotService.closeSlot(slotId, bikeId), sessionService.updateSessionForClosedSlot(bikeId, slotId)]);
+
+	handleResponse(promise, res, next);
 };
 
-function openSlot(slotId) {
-	return db.update('slots', {id: slotId}, {open: true});
-}
+exports.withdrawBike = function(req, res, next) {
+	var slotId = req.params.slotId;
+	
+	var promise = Promise.all([
+		sessionService.activateSession(slotId),
+		slotService.withdrawBike(slotId)
+	]);
 
-function closeSlot(slotId, bikeId) {
-	return db.update('slots', {id: slotId}, {open: false, bikeId: bikeId});
-}
+	handleResponse(promise, res, next);
+};
 
-function updateSession(slotId, bikeId) {
-	/*if(bikeId) {
-		db.find('sessions', {slotId: slotId, })
-	} else {
-		return db.update('sessions', {slotId: slotId, status: constants.SESSION_STATUS_RESERVED}, {status: constants.SESSION_STATUS_ACTIVE, dateFrom: Date.now()});
-	}*/
-}
+function handleResponse(promise, res, next) {
+	promise.then(function() {
+		console.log('slot ' + slotId + ' updated');
+		res.ok();
+	})
+	.fail(function(err) {
+		next(err)
+	})
+	.done();
+};
+
+
