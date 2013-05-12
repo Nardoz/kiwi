@@ -2,7 +2,10 @@
 
 
 exports.SESSION = {
-	STATE : {
-		ACTIVE : 'ACTIVO'
+	STATUS : {
+		ACTIVE : 'ACTIVO',
+		RESERVED : 'RESERVED',
+		FINISHED : 'FINISHED'
 	}
 }
+
