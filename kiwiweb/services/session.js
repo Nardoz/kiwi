@@ -11,10 +11,10 @@ exports.discardSession = function(session) {
 	return db.remove('sessions', {id: session.id});		
 }
 
-exports.finishSession = function(session) {
+exports.finishSession = function(session, slot) {
 	// Bike from an active session was returned to this slot, finishing the session
 	console.log('Slot ' + slotId + ' received bike ' + bikeId + ' from user ' + session.userId + '. Finishing the session.');
-	return db.update('sessions', {id: session.id}, {status: CONST.SESSION.STATUS.FINISHED, dateTo: Date.now(), slotTo: slotId});
+	return db.update('sessions', {id: session.id}, {status: CONST.SESSION.STATUS.FINISHED, dateTo: Date.now(), slotTo: slot.id});
 }
 
 exports.updateSessionForClosedSlot = function(slot, bikeId) {
@@ -26,7 +26,7 @@ exports.updateSessionForClosedSlot = function(slot, bikeId) {
 				if(session.status === CONST.SESSION.STATUS.RESERVED) {
 					return exports.discardSession(session);		
 				} else {
-					return exports.finishSession(session);
+					return exports.finishSession(session, slot);
 				}
 		});
 	} else {
@@ -36,7 +36,7 @@ exports.updateSessionForClosedSlot = function(slot, bikeId) {
 }
 
 exports.activateSession = function(slot) {
-	return db.update('sessions', {slotId: slot.id, status: CONST.SESSION.STATUS.RESERVED}, {status: CONST.SESSION.STATUS.ACTIVE, dateFrom: Date.now()});
+	return db.update('sessions', {slotFrom: slot.id, status: CONST.SESSION.STATUS.RESERVED}, {status: CONST.SESSION.STATUS.ACTIVE, dateFrom: Date.now()});
 }
 
 exports.createSession = function(user, slot) {
@@ -44,8 +44,7 @@ exports.createSession = function(user, slot) {
 		userId: user.id,
 		bikeId: slot.bikeId,
 		slotFrom: slot.id,
-		status: CONST.SESSION.STATUS.RESERVED,
-		dateTo: null  
+		status: CONST.SESSION.STATUS.RESERVED
 	};
 
 	return db.insert('sessions', session);
