@@ -45,6 +45,11 @@ exports.getActiveSession = function(req, res, next) {
 		console.log('users array', usersArray);
 		db.find('users', { id : { $in : usersArray}})
 		.then(function (users) {
+
+			_.each(users, function (u) {
+				u.session = _.find(sessions, function (s) { return u.id == s.userId} );
+			});
+
 			res.render('activeSession', {
 			 title: 'Usuarios Activos: ' + sessions.length,
 			 sessions : sessions, 
