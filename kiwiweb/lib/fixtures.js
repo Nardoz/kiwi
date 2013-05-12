@@ -99,7 +99,7 @@ var now = new Date();
 var sessions = [
 	{
 		id: 1,
-		userId: 1001,
+		userId: 1,
 		bikeId: 3,
 		slotFrom: 2002,
 		dateFrom: new Date(now.getTime()-4*60*60*1000), //3 hours before now 

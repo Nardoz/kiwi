@@ -5,7 +5,7 @@ var sessionService = require('../services/session');
 
 exports.getById = function(req, res, next) {
 	Promise.all([
-		db.findOne('session', {id: parseInt(req.params.id, 10)})
+		db.findOne('sessions', {id: parseInt(req.params.id, 10)})
 	])
 	.spread(function(session){
 		res.render('session', { title: 'Session Details ', session: session });
