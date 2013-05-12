@@ -1,6 +1,7 @@
 var cons = require('../lib/cons');
 var sessionService = require('../services/session');
 var slotService = require('../services/slot');
+var userService = require('../services/user');
 
 function handle(promise, res, next) {
 	promise
@@ -13,36 +14,65 @@ function handle(promise, res, next) {
 	.done();
 }
 
-exports.createSession = function(req, res, next) {
+exports.createSessionByUserId = function(req, res, next) {
 	var userId = req.params.userId;
-	var bikeId = req.body.bikeId;
-	var slotFrom = req.body.slotFrom;
+	var slotId = req.body.slotFrom;
 
-	handleResponse(sessionService.createSession(userId, bikeId, slotId), res, next);
+	var promise = userService.get(userId).then(function(user) {
+		return createSession(user, slotId);
+	});
+
+	handleResponse(promise, res, next);
 };
+
+exports.createSessionByPhonenumber = function(req, res, next) {
+	var phoneNumber = req.params.number;
+	var slotId = req.body.slotFrom;
+
+	var promise = userService.getByPhonenumber(phoneNumber).then(function(user) {
+		return createSession(user, slotId);
+	});
+
+	handleResponse(promise, res, next);
+};
+
+function createSession(user, slotId) {
+	return slotService.get(slotId)
+		.then(function(slot) {
+			return sessionService.createSession(user, slot);	
+		});
+}
 
 exports.openSlot = function(req, res, next) {
 	var slotId = req.params.slotId;
+
+	var promise = slotService.get(slotId).then(function(slot) {
+		return slotService.openSlot(slot);
+	});
 	
-	handleResponse(slotService.openSlot(slotId), res, next);
+	handleResponse(promise, res, next);
 };
 
 exports.closeSlot = function(req, res, next) {
 	var slotId = req.params.slotId;
 	var bikeId = req.body.bikeId;
 
-	promise = Promise.all([slotService.closeSlot(slotId, bikeId), sessionService.updateSessionForClosedSlot(bikeId, slotId)]);
-
+	var promise = slotService.get(slotId).then(function(slot) {
+		return Promise.all([slotService.closeSlot(slot, bikeId), sessionService.updateSessionForClosedSlot(bikeId, slot)]);
+	});
+	
 	handleResponse(promise, res, next);
 };
 
 exports.withdrawBike = function(req, res, next) {
 	var slotId = req.params.slotId;
 	
-	var promise = Promise.all([
-		sessionService.activateSession(slotId),
-		slotService.withdrawBike(slotId)
-	]);
+	var promise = slotService.get(slotId).then(function(slot) {
+		return Promise.all([
+			sessionService.activateSession(slot),
+			slotService.withdrawBike(slot)
+		]);
+	});
 
 	handleResponse(promise, res, next);
 };

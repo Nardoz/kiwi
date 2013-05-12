@@ -17,7 +17,7 @@ exports.finishSession = function(session) {
 	return db.update('sessions', {id: session.id}, {status: CONST.SESSION.STATUS.FINISHED, dateTo: Date.now(), slotTo: slotId});
 }
 
-exports.updateSessionForClosedSlot = function(slotId, bikeId) {
+exports.updateSessionForClosedSlot = function(slot, bikeId) {
 	if(bikeId) {
 		return exports.getOpenSessionForBike(bikeId)
 			.then(function(session) {
@@ -30,20 +30,20 @@ exports.updateSessionForClosedSlot = function(slotId, bikeId) {
 				}
 		});
 	} else {
-		console.log('Slot ' + slotId + ' closed without a bike, mmm...that is not cool man!');
-		return Error('Invalid slot status. Slot ' + slotId + ' closed without a bike');
+		console.log('Slot ' + slot.id + ' closed without a bike, mmm...that is not cool man!');
+		return Error('Invalid slot status. Slot ' + slot.id + ' closed without a bike');
 	}
 }
 
-exports.activateSession = function(slotId) {
-	return db.update('sessions', {slotId: slotId, status: CONST.SESSION.STATUS.RESERVED}, {status: CONST.SESSION.STATUS.ACTIVE, dateFrom: Date.now()});
+exports.activateSession = function(slot) {
+	return db.update('sessions', {slotId: slot.id, status: CONST.SESSION.STATUS.RESERVED}, {status: CONST.SESSION.STATUS.ACTIVE, dateFrom: Date.now()});
 }
 
-exports.createSession = function(userId, bikeId, slotId) {
+exports.createSession = function(user, slot) {
 	var session = {
-		userId: userId,
-		bikeId: bikeId,
-		slotFrom: slotId,
+		userId: user.id,
+		bikeId: slot.bikeId,
+		slotFrom: slot.id,
 		status: CONST.SESSION.STATUS.RESERVED,
 		dateTo: null  
 	};
