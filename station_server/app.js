@@ -22,12 +22,18 @@ function parseSlot(slotId) {
 
 app.get('/open_slot', function(req, res) {
 
-  var slotId = req.params.slot_id;
+  var slotId = req.query.slot_id;
 
   if(slotId !== undefined && slotIsValid(stationId, slotId)) {
+
     var parsed = parseSlot(slotId);
     serialPort.write('open ' + parseInt(parsed[2]) + "\n");
+
+    res.end('ok');
+    return;
   }
+
+  res.end('invalid_slotid');
 
 });
 
