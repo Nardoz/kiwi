@@ -10,6 +10,7 @@ var serialPort = new SerialPort(config.serial.device, {
   parser: serialport.parsers.readline("\n")
 });
 
+exports.current_bikeid = '1';
 
 exports.open_slot = function(req, res) {
 
@@ -27,3 +28,25 @@ exports.open_slot = function(req, res) {
   }
 
 };
+
+exports.set_bike = function(req, res) {
+
+  var bikeId = req.query.bike_id;
+
+  if(bikeId !== undefined && bikeId > 0) {
+    exports.current_bikeid = bikeId;
+    res.end(bikeId);
+  } else {
+    res.end('invalid_bikeid');
+  }
+
+};
+
+
+exports.get_bike = function(req, res) {
+  res.end(exports.current_bikeid);
+};
+
+
+
+// al hacer close, leer el bikeid del sensor y enviar close al kiwiwebserver. esto puede ser tanto cuando la devolvés, como cuando pasan 20secs
