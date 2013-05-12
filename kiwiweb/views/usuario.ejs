@@ -33,7 +33,7 @@
 	          <td><%-s.dateFrom%></td>
    	          <td><%-s.slotTo%></td>
 	          <td><%-s.dateTo%></td>
-   	          <td><a class="btn btn-mini" href="/sessions/<%-s.id%>">+</a></td>
+   	          <td><a <% if(s.status == 'ACTIVO') {%>style="display:none;"<%}%> class="btn btn-mini" href="/sessions/<%-s.id%>">+</a></td>
 	        </tr>
 	      <%
 	      });
