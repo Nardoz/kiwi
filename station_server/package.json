@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "express": "3.0.4",
-    "serialport": "1.0.8"
+    "serialport": "1.0.8",
+    "request": "*"
   },
   "repository": {
     "type": "git",
