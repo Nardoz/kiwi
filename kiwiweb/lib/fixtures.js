@@ -54,7 +54,7 @@ var stations = [
 			lat: -34.5923,
 			long: -58.375
 		},
-		ip:'100.100.100.100',
+		ip:'fake',
 		name: 'Retiro'
 	},
 	{
@@ -63,7 +63,7 @@ var stations = [
 			lat: -34.6063,
 			long: -58.3811
 		},
-		ip:'102.102.102.102',
+		ip:'fake',
 		name: 'Obelisco'
 	}
 ];
