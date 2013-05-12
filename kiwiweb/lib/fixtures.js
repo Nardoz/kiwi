@@ -78,7 +78,7 @@ var slots = [
 	{
 		id: 1002,
 		bikeId: null,
-		open: false,
+		open: true,
 		stationId: 1
 	},
 	{
