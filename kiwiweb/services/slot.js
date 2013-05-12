@@ -1,5 +1,5 @@
 var db = require('../lib/db');
-var cons = require('../lib/cons');
+var stationService = require('./station');
 
 exports.openSlot = function(slot) {
 	console.log('Setting slot ' + slot.id + ' to OPEN');
@@ -21,7 +21,7 @@ exports.get = function(id) {
 exports.getWithStation = function(id) {
 	return db.findOne('slots', {id: id})
 		.then(function(slot) {
-			return db.findOne('stations', {id: slot.stationId})
+			return stationService.get(slot.stationId)
 				.then(function(station) {
 					slot.station = station;
 
