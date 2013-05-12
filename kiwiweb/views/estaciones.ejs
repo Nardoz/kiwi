@@ -7,6 +7,7 @@
       <th>Nombre</th>
       <th>IP</th>
       <th>Coords</th>
+      <th></th>      
     </tr>
   </thead>
   <tbody>
@@ -19,6 +20,7 @@
           <td><a href="/stations/<%-station.id%>" ><%-station.name%> </a></td>
           <td><%-station.ip%></td>
           <td><%-station.coords.lat%> , <%-station.coords.long%></td>
+          <td><a class="btn btn-mini" href="/stations/<%-station.id%>">+</a></td>
         </tr>
       <%
       });

@@ -7,6 +7,7 @@
       <th>Nombre y Apellido</th>
       <th>DNI</th>
       <th>Celular</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -19,6 +20,7 @@
           <td><a href="/users/<%-user.id%>" ><%-user.name%> <%-user.apellido%> </a></td>
           <td><%-user.dni%></td>
           <td><%-user.cel%></td>
+          <td><a class="btn btn-mini" href="/users/<%-user.id%>">+</a></td>
         </tr>
       <%
       });
