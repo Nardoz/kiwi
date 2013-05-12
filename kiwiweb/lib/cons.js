@@ -3,6 +3,7 @@
 
 exports.SESSION = {
 	STATE : {
-		ACTIVE : 'ACTIVO'
+		ACTIVE : 'ACTIVO',
+		INACTIVE : 'INACTIVO'
 	}
 }

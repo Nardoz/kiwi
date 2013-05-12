@@ -1,9 +1,41 @@
 <% include includes/header.ejs %>
 
-<%= station.name %>
+<div class="row">
+	<div class="span6">		
+		<h1><%= station.name %></h1>
+	</div>
+	<div class="span6">		
+		<img src="http://maps.googleapis.com/maps/api/staticmap?center=<%-station.coords.lat%>,<%-station.coords.long%>&zoom=13&size=300x300&maptype=roadmap
+&markers=color:red%7Clabel:%7C<%-station.coords.lat%>,<%-station.coords.long%>8&sensor=false"/>
+	</div>
+</div>
 
-<br/>
+<div class="row">
+	<h3>Slots</h3>
+	<table class="table table-bordered">
+	  <thead>
+	    <tr>
+	      <th>#</th>
+	      <th>Abierto?</th>
+	      <th># de bici</th>
+	    </tr>
+	  </thead>
+	  <tbody>
 
-<%= slots %>
+	      <%
+	      slots.forEach(function (s) {
+	      %>
+	        <tr>
+	          <td><%-s.id%></td>
+	          <td><%-(s.open)?"ABIERTO":"CERRADO"%></td>
+	          <td><%-s.bikeId%></td>
+	        </tr>
+	      <%
+	      });
+	      %>
+
+	  </tbody>
+	</table>
+</div>
 
 <% include includes/footer.ejs %>

@@ -1,10 +1,44 @@
 <% include includes/header.ejs %>
 
-<%=- user.name %>
-<%=- user.apellido %>
+<div class="row">
+	<div class="hero-unit">	
+		<h1><%- user.name %> <%- user.apellido %></h1>
+	</div>	
+</div>
 
-<br/>
+<div class="row">
+	<table class="table table-bordered">
+	  <thead>
+	    <tr>
+	      <th>#</th>
+	      <th># de bici</th>
+	      <th>Status</th>
+	      <th>slotFrom</th>
+	      <th>dateFrom</th>
+	      <th>slotTo</th>
+	      <th>dateTo</th>
+	    </tr>
+	  </thead>
+	  <tbody>
 
-<%= sessions %>
+	      <%
+	      sessions.forEach(function (s) {
+	      %>
+	        <tr>
+	          <td><%-s.id%></td>
+	          <td><%-s.bikeId%></td>
+	          <td><%-s.status%></td>
+   	          <td><%-s.slotFrom%></td>
+	          <td><%-s.dateFrom%></td>
+   	          <td><%-s.slotTo%></td>
+	          <td><%-s.dateTo%></td>
+	        </tr>
+	      <%
+	      });
+	      %>
+
+	  </tbody>
+	</table>
+</div>
 
 <% include includes/footer.ejs %>

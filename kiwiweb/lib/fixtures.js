@@ -51,20 +51,20 @@ var stations = [
 	{
 		id: 1,
 		coords: {
-			lat: 24.123123123,
-			long: 34.12312312
+			lat: -34.5923,
+			long: -58.375
 		},
 		ip:'100.100.100.100',
-		name: 'Plaza Almagro'
+		name: 'Retiro'
 	},
 	{
 		id: 2,
 		coords: {
-			lat: 25.123123123,
-			long: 31.12312312
+			lat: -34.6063,
+			long: -58.3811
 		},
 		ip:'102.102.102.102',
-		name: 'Microcentro'
+		name: 'Obelisco'
 	}
 ];
 
@@ -78,7 +78,7 @@ var slots = [
 	{
 		id: 1002,
 		bikeId: null,
-		open: false,
+		open: true,
 		stationId: 1
 	},
 	{
@@ -88,7 +88,7 @@ var slots = [
 		stationId: 2
 	},
 	{
-		id: 002002,
+		id: 2002,
 		bikeId: 4,
 		open: false,
 		stationId: 2
@@ -99,7 +99,7 @@ var now = new Date();
 var sessions = [
 	{
 		id: 1,
-		userId: 2,
+		userId: 1,
 		bikeId: 3,
 		slotFrom: 2,
 		dateFrom: new Date(now.getTime()-4*60*60*1000), //3 hours before now 
@@ -108,24 +108,24 @@ var sessions = [
 		status: CONS.SESSION.STATE.ACTIVE
 	},
 	{
-		id: 1,
+		id: 2,
 		userId: 1,
 		bikeId: 3,
 		slotFrom: 2,
 		dateFrom: new Date(now.getTime()-10*60*60*1000), //3 hours before now 
 		slotTo: 4,
 		dateTo: new Date(now.getTime()-8*60*60*1000),
-		status: CONS.SESSION.STATE.ACTIVE
+		status: CONS.SESSION.STATE.INACTIVE
 	},
 	{
-		id: 1,
+		id: 3,
 		userId: 1,
 		bikeId: 4,
 		slotFrom: 2,
 		dateFrom: new Date(now.getTime()-6*60*60*1000), //3 hours before now 
 		slotTo: 4,
 		dateTo: new Date(now.getTime()-5*60*60*1000),
-		status: CONS.SESSION.STATE.ACTIVE
+		status: CONS.SESSION.STATE.INACTIVE
 	}
 ];
 
@@ -143,12 +143,11 @@ exports.init = function() {
 		//console.log('Initializing collection ' + collection);
 		if(!collections[collection]) Promise.resolve(true);
 
-		var p = collections[collection].map(function(model) {
-			var col = collection;
-			//console.log('Removing model with id ' + model.id +' from ' + col);
-			return db.remove(col, {id: model.id})
-			.then(function() {
-				//console.log('Saving model with id ' + model.id +' from ' + col);
+		return db.remove(collection)
+		.then(function(){
+
+			var p = collections[collection].map(function(model) {
+				var col = collection;
 				return db.insert(col, model);
 			});
 		});

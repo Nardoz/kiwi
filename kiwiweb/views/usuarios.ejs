@@ -1,38 +1,31 @@
 <% include includes/header.ejs %>
 
-
-
-
 <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Nombre y Apellido</th>
-                  <th>DNI</th>
-                  <th>Celular</th>
-                </tr>
-              </thead>
-              <tbody>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nombre y Apellido</th>
+      <th>DNI</th>
+      <th>Celular</th>
+    </tr>
+  </thead>
+  <tbody>
 
-<%
-var i = 1;
-_.each(users, function (user) {
-%>
-                <tr>
-                  <td><%-i%></td>
-                  <td><a href="/users/<%-user.id%>" ><%-user.name%> <%-user.apellido%> </a></td>
-                  <td><%-user.dni%></td>
-                  <td><%-user.cel%></td>
-                </tr>
+      <%
+      users.forEach(function (user) {
+      %>
+        <tr>
+          <td><%-user.id%></td>
+          <td><a href="/users/<%-user.id%>" ><%-user.name%> <%-user.apellido%> </a></td>
+          <td><%-user.dni%></td>
+          <td><%-user.cel%></td>
+        </tr>
+      <%
+      });
+      %>
 
-
-<%
-i++;	
-});
-%>
-
-              </tbody>
-            </table>
+  </tbody>
+</table>
 
 
 <% include includes/footer.ejs %>
