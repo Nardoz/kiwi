@@ -15,13 +15,17 @@ module.exports = function(app) {
 	app.get('/stations', controllers.station.list);
 	app.get('/stations/:id', controllers.station.getById);
 
+	app.get('/sessions/:id', controllers.session.getById);
+
 	// SMS
-	app.post('/api/users/:userId/sessions', controllers.api.createSession);
+	app.post('/api/users/:userId/sessions', controllers.api.createSessionByUserId);
+	app.post('/api/phones/:number/sessions', controllers.api.createSessionByPhonenumber);
 
 	// Arduino
 	app.put('/api/slots/:slotId/open', controllers.api.openSlot);
 	app.put('/api/slots/:slotId/close', controllers.api.closeSlot);
 	app.put('/api/slots/:slotId/withdraw', controllers.api.withdrawBike);
+	app.put('/api/stations/:stationId', controllers.api.updateStationIP);
 
 
 

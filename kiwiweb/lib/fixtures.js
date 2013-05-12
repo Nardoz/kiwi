@@ -101,7 +101,7 @@ var sessions = [
 		id: 1,
 		userId: 1,
 		bikeId: 3,
-		slotFrom: 2,
+		slotFrom: 2002,
 		dateFrom: new Date(now.getTime()-4*60*60*1000), //3 hours before now 
 		slotTo: null,
 		dateTo: null,
@@ -111,21 +111,21 @@ var sessions = [
 		id: 2,
 		userId: 1,
 		bikeId: 3,
-		slotFrom: 2,
+		slotFrom: 1002,
 		dateFrom: new Date(now.getTime()-10*60*60*1000), //3 hours before now 
-		slotTo: 4,
+		slotTo: 2001,
 		dateTo: new Date(now.getTime()-8*60*60*1000),
-		status: CONS.SESSION.STATUS.ACTIVE
+		status: CONS.SESSION.STATUS.FINISHED
 	},
 	{
 		id: 3,
 		userId: 1,
 		bikeId: 4,
-		slotFrom: 2,
+		slotFrom: 2001,
 		dateFrom: new Date(now.getTime()-6*60*60*1000), //3 hours before now 
-		slotTo: 4,
+		slotTo: 1001,
 		dateTo: new Date(now.getTime()-5*60*60*1000),
-		status: CONS.SESSION.STATUS.ACTIVE
+		status: CONS.SESSION.STATUS.FINISHED
 	}
 ];
 

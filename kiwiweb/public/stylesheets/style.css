@@ -1,7 +1,13 @@
 body {
-  padding: 50px;
+  padding-top: 100px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-a {
-  color: #00b7ff;
+
+.nav a {
+	height: 37px;
+	padding-top: 22px !important; 
+}
+
+.logo {
+	height: 50px;
 }

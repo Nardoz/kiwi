@@ -1,6 +1,7 @@
 var db = require('../lib/db');
 var Promise = require('../lib/promise');
-var CONS = require('../lib/cons')
+var CONS = require('../lib/cons');
+var _ = require('underscore');
 
 function handle(promise, res, next) {
 	promise
@@ -40,7 +41,16 @@ exports.getActiveSession = function(req, res, next) {
 
 	db.find('sessions', {status : CONS.SESSION.STATUS.ACTIVE})
 	.then(function(sessions) {
-			res.render('activeSession', { title: 'Usuarios Activos: ' + sessions.length, sessions : sessions});
+		var usersArray = _.map(sessions, function (s) { return s.userId })
+		console.log('users array', usersArray);
+		db.find('users', { id : { $in : usersArray}})
+		.then(function (users) {
+			res.render('activeSession', {
+			 title: 'Usuarios Activos: ' + sessions.length,
+			 sessions : sessions, 
+			 users : users});
+		})
+		.done();
 	})
 	.done();
 
