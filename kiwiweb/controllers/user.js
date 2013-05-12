@@ -38,7 +38,7 @@ exports.getSessions = function(req, res, next) {
 
 exports.getActiveSession = function(req, res, next) {
 
-	db.find('sessions', {status : CONS.SESSION.STATE.ACTIVE})
+	db.find('sessions', {status : CONS.SESSION.STATUS.ACTIVE})
 	.then(function(sessions) {
 			res.render('activeSession', { title: 'Usuarios Activos: ' + sessions.length, sessions : sessions});
 	})
