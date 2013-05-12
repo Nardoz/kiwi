@@ -18,7 +18,8 @@ module.exports = function(app) {
 	//app.get('/sessions/:id', controllers.session.getById);
 
 	// SMS
-	app.post('/api/users/:userId/sessions', controllers.api.createSession);
+	app.post('/api/users/:userId/sessions', controllers.api.createSessionByUserId);
+	app.post('/api/phones/:number/sessions', controllers.api.createSessionByPhonenumber);
 
 	// Arduino
 	app.put('/api/slots/:slotId/open', controllers.api.openSlot);

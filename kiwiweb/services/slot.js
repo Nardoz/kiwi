@@ -1,17 +1,17 @@
 var db = require('../lib/db');
 var cons = require('../lib/cons');
 
-exports.openSlot = function(slotId) {
-	console.log('Setting slot ' + slotId + ' to OPEN');
-	return db.update('slots', {id: slotId}, {open: true});
+exports.openSlot = function(slot) {
+	console.log('Setting slot ' + slot.id + ' to OPEN');
+	return db.update('slots', {id: slot.id}, {open: true});
 }
 
-exports.closeSlot = function(slotId, bikeId) {
-	return db.update('slots', {id: slotId}, {open: false, bikeId: bikeId});
+exports.closeSlot = function(slot, bikeId) {
+	return db.update('slots', {id: slot.id}, {open: false, bikeId: bikeId});
 }
 
-exports.withdrawBike = function(slotId) {
-	return db.update('slots', {id: slotId}, {bikeId: null});
+exports.withdrawBike = function(slot) {
+	return db.update('slots', {id: slot.id}, {bikeId: null});
 }
 
 exports.get = function(id) {
