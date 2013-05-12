@@ -1,5 +1,6 @@
 var cons = require('../lib/cons');
 var request = require('../lib/request');
+var Promise = require('../lib/promise');
 var sessionService = require('../services/session');
 var slotService = require('../services/slot');
 var userService = require('../services/user');

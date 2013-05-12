@@ -51,8 +51,11 @@ exports.insert = function(collection) {
   return query(collection, 'insert', args);
 };
 
-exports.update = function(collection) {
-  var args = _.tail(arguments, 1) || [];
+exports.update = function(collection,filter,values) {
+  //var args = _.tail(arguments, 3) || [];
+  var args = [];
+  args.push(filter);
+  args.push({$set: values});
   return query(collection, 'update', args);
 };
 
