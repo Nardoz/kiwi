@@ -1,5 +1,6 @@
 var db = require('./db');
 var Promise = require('./promise');
+var CONS = require('./cons');
 
 var users = [
 				{
@@ -104,7 +105,7 @@ var sessions = [
 		dateFrom: new Date(now.getTime()-4*60*60*1000), //3 hours before now 
 		slotTo: null,
 		dateTo: null,
-		status: "ACTIVO"
+		status: CONS.SESSION.STATE.ACTIVE
 	},
 	{
 		id: 1,
@@ -114,7 +115,7 @@ var sessions = [
 		dateFrom: new Date(now.getTime()-10*60*60*1000), //3 hours before now 
 		slotTo: 4,
 		dateTo: new Date(now.getTime()-8*60*60*1000),
-		status: "ACTIVO"
+		status: CONS.SESSION.STATE.ACTIVE
 	},
 	{
 		id: 1,
@@ -124,7 +125,7 @@ var sessions = [
 		dateFrom: new Date(now.getTime()-6*60*60*1000), //3 hours before now 
 		slotTo: 4,
 		dateTo: new Date(now.getTime()-5*60*60*1000),
-		status: "ACTIVO"
+		status: CONS.SESSION.STATE.ACTIVE
 	}
 ];
 

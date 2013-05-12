@@ -1,5 +1,6 @@
 var db = require('../lib/db');
 var Promise = require('../lib/promise');
+var CONS = require('../lib/cons')
 
 function handle(promise, res, next) {
 	promise
@@ -36,7 +37,13 @@ exports.getSessions = function(req, res, next) {
 };
 
 exports.getActiveSession = function(req, res, next) {
-	res.render('index', { title: 'Expreso' });
+
+	db.find('sessions', {status : CONS.SESSION.STATE.ACTIVE})
+	.then(function(sessions) {
+			res.render('activeSession', { title: 'Usuarios Activos: ' + sessions.length, sessions : sessions});
+	})
+	.done();
+
 };
 
 exports.closeSession = function(req, res, next) {

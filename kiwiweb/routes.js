@@ -9,6 +9,7 @@ module.exports = function(app) {
 	app.get('/', controllers.main.index);
 
     app.get('/users', controllers.user.list);
+    app.get('/users/active', controllers.user.getActiveSession);
     app.get('/users/:id', controllers.user.getById);
 
 	app.get('/stations', controllers.station.list);
@@ -21,7 +22,6 @@ module.exports = function(app) {
 	app.put('/api/slots/:slotId', controllers.api.updateSlot);
 
 
-	//app.get('/users/active', controllers.user.getActiveSession);
 
 	/*
 	app.get('/api/bikes', controllers.bike.list);
