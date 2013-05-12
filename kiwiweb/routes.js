@@ -15,6 +15,8 @@ module.exports = function(app) {
 	app.get('/stations', controllers.station.list);
 	app.get('/stations/:id', controllers.station.getById);
 
+	//app.get('/sessions/:id', controllers.session.getById);
+
 	// SMS
 	app.post('/api/users/:userId/sessions', controllers.api.createSession);
 
