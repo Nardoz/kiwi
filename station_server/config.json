@@ -1,0 +1,7 @@
+{
+  "station_id": "01",
+  "serial": {
+    "device": "/dev/tty.usbmodemfa131",
+    "baud_rate": 57600
+  }
+}
