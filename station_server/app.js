@@ -42,7 +42,7 @@ app.get('/open_slot', function(req, res) {
 
       else if(status.bike_status === 0) {
         arduino.close_slot(slot);
-        utils.sendRequest('/slots/' + slotId + '/close', { bikeId: current_bikeid });
+        utils.sendRequest('/slots/' + status.slot_id + '/close', { bikeId: current_bikeid });
       }
 
     };
@@ -51,7 +51,7 @@ app.get('/open_slot', function(req, res) {
 
       if(status === 1) {
         arduino.close_slot(slot);
-        utils.sendRequest('/slots/' + slotId + '/close', { bikeId: current_bikeid });
+        utils.sendRequest('/slots/' + status.slot_id + '/close', { bikeId: current_bikeid });
       }
 
     }, config.timeout * 1000);
