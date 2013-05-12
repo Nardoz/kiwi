@@ -13,7 +13,7 @@ var stationId = '001';
 
 function slotIsValid(station, slot) {
   var parsed = parseSlot(slot);
-  return parsed !== null && parsed.length == 3 && parsed[1] === station;
+  return parsed !== null && parsed.length === 3 && parsed[1] === station;
 }
 
 function parseSlot(slotId) {
