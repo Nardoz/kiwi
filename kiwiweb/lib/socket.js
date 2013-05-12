@@ -1,14 +1,15 @@
+var socketIO = require('socket.io');
+var socket;
 
-var io, socket;
 exports.init = function(app) {
-	 io = socket.listen(app);
+	var io = socketIO.listen(app);
 
-	 io.sockets.on('connection', function (s) {
-	 	socket = s;
-  //    socket.on('socketname', function);
-  });
-}
+	io.sockets.on('connection', function (s) {
+ 		socket = s;
+	});
+};
 
-exports.notify = function(event, params) {
-
+exports.notify = function(eventName, params) {
+	if(!socket) throw Error('Socket.IO was not initialized');
+	socket.emit(eventName, params);
 };

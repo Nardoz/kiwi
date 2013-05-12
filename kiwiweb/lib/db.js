@@ -20,6 +20,18 @@ exports.findOne = function(collection) {
   return query(collection, 'findOne', args);
 };
 
+exports.generateId = function(collection) {
+  var collection = db[colName];
+
+  var promise = Promise.withCallback();
+  var elem = collection.find().sort({id: -1}).limit(1).first(promise.cb);
+
+
+  return promise.then(function(elem) {
+    return (elem.id + 1);
+  });
+};
+
 exports.find = function(collection) {
   var args = _.tail(arguments, 1) || [];
   return query(collection, 'find', args);
