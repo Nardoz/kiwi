@@ -30,9 +30,9 @@
 	          <td><%-s.bikeId%></td>
 	          <td><%-s.status%></td>
    	          <td><%-s.slotFrom%></td>
-	          <td><%-s.dateFrom%></td>
+	          <td><%-(s.dateFrom)?new Date(s.dateFrom):''%></td>
    	          <td><%-s.slotTo%></td>
-	          <td><%-s.dateTo%></td>
+	          <td><%-(s.dateTo)?new Date(s.dateTo):''%></td>
    	          <td><a <% if(s.status == 'ACTIVO') {%>style="display:none;"<%}%> class="btn btn-mini" href="/sessions/<%-s.id%>">+</a></td>
 	        </tr>
 	      <%

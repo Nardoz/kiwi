@@ -55,7 +55,11 @@ function createSession(user, slotId) {
 			.then(function() {
 				console.log('Slot ' + slot.id + ' belongs to station "' + slot.station.name + '"');
 				console.log('Notifying station "' + slot.station.name + '" (IP:' + slot.station.ip + ')');
-				return request.get("http://" + slot.station.ip + "/slots/" + slot.id + "/open");
+				if(slot.station.ip === 'fake') {
+					return true;
+				} else {
+					return request.get("http://" + slot.station.ip + "/slots/" + slot.id + "/open");
+				}
 			});
 		});
 		
