@@ -14,13 +14,13 @@ var serialPort = new SerialPort(config.serial.device, {
 serialPort.on('open', function() {
   serialPort.on('data', function(data) {
 
-    var parsed = data.match(/([0-9]{3})([0-1]{1})/);
+    var parsed = data.match(/([0-9]{2})([0-1]{1})/);
 
     if(parsed !== null) {
 
       arduino.on_status({
         slot_id: parsed[0],
-        bike_status: parsed[1]
+        bike_status: parsed[2]
       });
 
     } else {
@@ -33,13 +33,12 @@ serialPort.on('open', function() {
 var arduino = {
 
   open_slot: function(slotId) {
-    serialPort.write(slotId + "o\n", function(err, results) {
-    console.log('err ' + err);
-    console.log('results ' + results);
-  });
+    console.log(slotId + "o\n")
+    serialPort.write(slotId + "o\n");
   },
 
   close_slot: function(slotId) {
+    console.log(slotId + "c\n")
     serialPort.write(slotId + "c\n");
   },
 

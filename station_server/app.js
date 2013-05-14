@@ -12,44 +12,44 @@ require('dns').lookup(require('os').hostname(), function(err, address, fam) {
   utils.sendRequest('/stations/' + config.station_id, { ip: address + ':' + config.port });
 });
 
+arduino.on_status = function(s) {
 
-app.get('/open_slot', function(req, res) {
+  status = s;
 
-  var slotId = req.query.slot_id;
+  if(status.bike_status === 0) {
+    utils.sendRequest('/slots/' + status.slot_id + '/withdraw');
+  }
+
+  else if(status.bike_status === 0) {
+    arduino.close_slot(slot);
+    utils.sendRequest('/slots/' + status.slot_id + '/close', { bikeId: current_bikeid });
+  }
+
+};
+
+app.get('/slots/:id/open', function(req, res) {
+
+  var slotId = '0' + req.params.id;
+
 
   if(slotId !== undefined && utils.slotIsValid(config.station_id, slotId)) {
-
+console.log(slotId)
     var parsed = utils.parseSlot(slotId);
     var slot = parsed[2];
 
     arduino.open_slot(slot);
 
-    utils.sendRequest('/slots/' + slotId + '/open');
+    utils.sendRequest('/slots/' + req.params.id + '/open');
 
     var status = {
-      slot_id: 0,
+      slot_id: req.params.id,
       bike_status: 1,
       lock_status: 1
     };
 
-    arduino.on_status = function(s) {
-
-      status = s;
-
-      if(status.bike_status === 0) {
-        utils.sendRequest('/slots/' + slotId + '/withdraw');
-      }
-
-      else if(status.bike_status === 0) {
-        arduino.close_slot(slot);
-        utils.sendRequest('/slots/' + status.slot_id + '/close', { bikeId: current_bikeid });
-      }
-
-    };
-
     setTimeout(function() {
 
-      if(status === 1) {
+      if(status.bike_status === 1) {
         arduino.close_slot(slot);
         utils.sendRequest('/slots/' + status.slot_id + '/close', { bikeId: current_bikeid });
       }
