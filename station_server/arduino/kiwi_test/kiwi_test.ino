@@ -9,8 +9,9 @@ int servoPos2 = 0;
 boolean buttonStatus1 = HIGH;
 boolean buttonStatus2 = HIGH;
 
-String inputString = "";
-boolean stringComplete = false;
+
+String inputString = "";        
+boolean stringComplete = false; 
 
 void setup() {
 
@@ -20,64 +21,46 @@ void setup() {
   servo2.attach(5);
 
   pinMode(12, INPUT_PULLUP);
-  pinMode(13, INPUT_PULLUP);
-
-  //servo1.write(0);
-  //servo2.write(0);
+  pinMode(13, INPUT_PULLUP); 
 
   delay(15);
 }
 
 void loop() {
-  
+
+  if (digitalRead(12) == HIGH) {
+      openSlot(servo1, servoPos1);
+  } else {
+      closeSlot(servo1, servoPos1);
+  }
+
+  if (digitalRead(13) == HIGH) {
+      openSlot(servo2, servoPos2);
+  } else {
+      closeSlot(servo2, servoPos2);
+  }  
+
   boolean digitalValue1 = digitalRead(12);
   if (buttonStatus1 != digitalValue1) {
-        if (digitalValue1 == LOW) {
-          closeSlot(servo1, servoPos1);
-        }
       sendButtonStatus1();
       buttonStatus1 = digitalValue1;
   }
 
   boolean digitalValue2 = digitalRead(13);
   if (buttonStatus2 != digitalValue2) {
-        if (digitalValue2 == LOW) {
-          closeSlot(servo2, servoPos2);
-        }
       sendButtonStatus2();
       buttonStatus2 = digitalValue2;
   }
-  
-  if(stringComplete) {
+ 
+   if(stringComplete) {
     
-    if(inputString.equals("01o")) {
-      openSlot(servo1, servoPos1);
-      sendButtonStatus1();
-    } 
-    else if (inputString.equals("01c")) {
-      closeSlot(servo1, servoPos1);
-      sendButtonStatus1();
-    } 
-    else if (inputString.equals("01s")) {
-      sendButtonStatus1();
-    } 
-    else if(inputString.equals("02o")) {
-      openSlot(servo2, servoPos2);
-      sendButtonStatus2();
-    } 
-    else if (inputString.equals("02c")) {
-      closeSlot(servo2, servoPos2);
-      sendButtonStatus2();
-    } 
-    else if (inputString.equals("02s")) {
-      sendButtonStatus2();
-    }
+    Serial.println(inputString);
     
     inputString = "";
     stringComplete = false;
 
   }
-
+  
 }
 
 void serialEvent() {
@@ -86,6 +69,7 @@ void serialEvent() {
 
     if (inChar == '\n') {
       stringComplete = true;
+      Serial.println("inputString");
     } else {
       inputString += inChar;
     }
